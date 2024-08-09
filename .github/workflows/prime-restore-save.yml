@@ -7,25 +7,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Restore cached Primes
-      id: cache-primes-restore
-      uses: actions/cache/restore@v4
-      with:
-        path: |
-          path/to/dependencies
-          some/other/dependencies
-        key: ${{ runner.os }}-primes
-    .
-    . //intermediate workflow steps
-    .
-    - name: Save Primes
-      id: cache-primes-save
-      uses: actions/cache/save@v4
-      with:
-        path: |
-          path/to/dependencies
-          some/other/dependencies
-        key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
-        
+      - name: Restore cached Primes
+        id: cache-primes-restore
+        uses: chinchaun/nativelink-cache@v0.0.1-beta
+        with:
+          path: |
+            path/to/dependencies
+            some/other/dependencies
+          key: ${{ runner.os }}-primes
+        env:
+          NATIVELINK_API_KEY: ${{ secrets.NATIVELINK_API_KEY }}
+          NATIVELINK_REMOTE_CACHE_URL: ${{ secrets.NATIVELINK_REMOTE_CACHE_URL }}
+
+      - name: Save Primes
+        id: cache-primes-save
+        uses: chinchaun/nativelink-cache@v0.0.1-beta
+        with:
+          path: |
+            path/to/dependencies
+            some/other/dependencies
+          key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
+        env:
+          NATIVELINK_API_KEY: ${{ secrets.NATIVELINK_API_KEY }}
+          NATIVELINK_REMOTE_CACHE_URL: ${{ secrets.NATIVELINK_REMOTE_CACHE_URL }}
