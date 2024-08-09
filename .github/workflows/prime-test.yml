@@ -11,7 +11,7 @@ jobs:
 
       - name: Cache Primes
         id: cache-primes
-        uses: chinchaun/nativelink-cache@v0.0.1-beta
+        uses: chinchaun/nativelink-cache@v0.0.2
         with:
           path: prime-numbers
           key: ${{ runner.os }}-primes

@@ -11,7 +11,7 @@ jobs:
 
       - name: Restore cached Primes
         id: cache-primes-restore
-        uses: chinchaun/nativelink-cache@v0.0.1-beta
+        uses: chinchaun/nativelink-cache@v0.0.2
         with:
           path: |
             path/to/dependencies
@@ -23,7 +23,7 @@ jobs:
 
       - name: Save Primes
         id: cache-primes-save
-        uses: chinchaun/nativelink-cache@v0.0.1-beta
+        uses: chinchaun/nativelink-cache@v0.0.2
         with:
           path: |
             path/to/dependencies
