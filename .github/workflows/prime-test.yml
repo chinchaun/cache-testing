@@ -8,20 +8,31 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Cache Primes
-        id: cache-primes
+      - name: Cache node modules
+        id: cache-yarn
         uses: chinchaun/nativelink-cache@v0.0.2
-        with:
-          path: prime-numbers
-          key: ${{ runner.os }}-primes
         env:
+          cache-name: cache-node-modules
           NATIVELINK_API_KEY: ${{ secrets.NATIVELINK_API_KEY }}
           NATIVELINK_REMOTE_CACHE_URL: ${{ secrets.NATIVELINK_REMOTE_CACHE_URL }}
+        with:
+          path: $ {{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
-      - name: Generate Prime Numbers
-        if: steps.cache-primes.outputs.cache-hit != 'true'
-        run: /generate-primes.sh -d prime-numbers
+      - if: ${{ steps.cache-yarn.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: yarn list
 
-      - name: Use Prime Numbers
-        run: /primes.sh -d prime-numbers
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn run build
