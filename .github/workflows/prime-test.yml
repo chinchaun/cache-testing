@@ -20,7 +20,7 @@ jobs:
           NATIVELINK_API_KEY: ${{ secrets.NATIVELINK_API_KEY }}
           NATIVELINK_REMOTE_CACHE_URL: ${{ secrets.NATIVELINK_REMOTE_CACHE_URL }}
         with:
-          path: $ {{ steps.yarn-cache-dir-path.outputs.dir }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
