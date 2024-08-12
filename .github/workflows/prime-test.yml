@@ -32,7 +32,7 @@ jobs:
 
       - name: Cache node modules
         id: cache-yarn
-        uses: chinchaun/nativelink-cache@v0.0.3-alpha
+        uses: chinchaun/nativelink-cache@v.0.0.4-beta
         env:
           cache-name: cache-node-modules
           NATIVELINK_API_KEY: ${{ secrets.NATIVELINK_API_KEY }}
