@@ -1,6 +1,24 @@
 name: Caching Primes
 
-on: push
+on:
+  push:
+    branches: ["*"]
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: "Log level"
+        required: true
+        default: "warning"
+        type: choice
+        options:
+          - info
+          - warning
+          - debug
+      debug_enabled:
+        type: boolean
+        description: "Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)"
+        required: false
+        default: false
 
 jobs:
   build:
@@ -14,11 +32,12 @@ jobs:
 
       - name: Cache node modules
         id: cache-yarn
-        uses: chinchaun/nativelink-cache@v0.0.2
+        uses: chinchaun/nativelink-cache@v0.0.3-alpha
         env:
           cache-name: cache-node-modules
           NATIVELINK_API_KEY: ${{ secrets.NATIVELINK_API_KEY }}
           NATIVELINK_REMOTE_CACHE_URL: ${{ secrets.NATIVELINK_REMOTE_CACHE_URL }}
+          VERSION_SALT: "2"
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
