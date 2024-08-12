@@ -32,12 +32,12 @@ jobs:
 
       - name: Cache node modules
         id: cache-yarn
-        uses: chinchaun/nativelink-cache@v.0.0.4-beta
+        uses: chinchaun/nativelink-cache@v0.0.5-beta
         env:
           cache-name: cache-node-modules
           NATIVELINK_API_KEY: ${{ secrets.NATIVELINK_API_KEY }}
           NATIVELINK_REMOTE_CACHE_URL: ${{ secrets.NATIVELINK_REMOTE_CACHE_URL }}
-          VERSION_SALT: "2"
+          # VERSION_SALT: "2"
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
