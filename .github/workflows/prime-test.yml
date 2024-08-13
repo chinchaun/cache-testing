@@ -32,7 +32,7 @@ jobs:
 
       - name: Cache node modules
         id: cache-yarn
-        uses: chinchaun/nativelink-cache@v0.0.6-beta
+        uses: chinchaun/nativelink-cache@v0.0.7-beta
         env:
           cache-name: cache-node-modules
           NATIVELINK_API_KEY: ${{ secrets.NATIVELINK_API_KEY }}
@@ -40,8 +40,9 @@ jobs:
           # VERSION_SALT: "2"
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-branch-test
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-random-key
           restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-branch-test
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
